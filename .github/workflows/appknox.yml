@@ -21,6 +21,9 @@
 
 name: Appknox
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ "main" ]
