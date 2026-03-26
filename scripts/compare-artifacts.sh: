@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Paths
+FORK_DIR="$(pwd)"
+UPSTREAM_DIR="$(mktemp -d)"
+
+echo "Cloning upstream ton-blockchain/highload-wallet-contract-v3..."
+git clone --depth 1 https://github.com/ton-blockchain/highload-wallet-contract-v3.git "$UPSTREAM_DIR"
+
+echo "Building fork..."
+npm ci
+npm run build
+
+echo "Building upstream..."
+pushd "$UPSTREAM_DIR" >/dev/null
+npm ci
+npm run build
+popd >/dev/null
+
+FORK_CELL="$FORK_DIR/build/highload-wallet-v3.cell"
+UPSTREAM_CELL="$UPSTREAM_DIR/build/highload-wallet-v3.cell"
+
+if [[ ! -f "$FORK_CELL" || ! -f "$UPSTREAM_CELL" ]]; then
+  echo "Missing .cell artifacts; check build paths."
+  exit 1
+fi
+
+FORK_HASH="$(sha256sum "$FORK_CELL" | cut -d ' ' -f1)"
+UPSTREAM_HASH="$(sha256sum "$UPSTREAM_CELL" | cut -d ' ' -f1)"
+
+echo "Fork hash:     $FORK_HASH"
+echo "Upstream hash: $UPSTREAM_HASH"
+
+if [[ "$FORK_HASH" != "$UPSTREAM_HASH" ]]; then
+  echo "Artifact mismatch: fork and upstream bytecode differ."
+  exit 1
+fi
+
+echo "Artifacts match: fork and upstream bytecode are identical."
