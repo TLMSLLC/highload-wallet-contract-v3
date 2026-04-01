@@ -77,6 +77,8 @@ jobs:
     name: Dependency Audit
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
