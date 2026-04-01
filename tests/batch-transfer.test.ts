@@ -1,6 +1,6 @@
 import { Blockchain, SandboxContract, TreasuryContract } from '@ton/sandbox';
 import { HighloadWalletV3 } from '../wrappers/HighloadWalletV3';
-import { toNano, Address } from '@ton/core';
+import { toNano } from '@ton/core';
 
 describe('Highload Wallet v3 – Batch Transfer Behavior', () => {
     let blockchain: Blockchain;
