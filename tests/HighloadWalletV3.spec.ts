@@ -102,7 +102,7 @@ describe('HighloadWalletV3', () => {
 
     it('should pass check sign', async () => {
         try {
-            const message = highloadWalletV3.createInternalTransfer({actions: [], queryId: HighloadQueryId.fromQueryId(0n), value: 0n})
+            const message = highloadWalletV3.createInternalTransfer({actions: [], queryId: HighloadQueryId.fromQueryId(0n), value: 0n});
             const rndShift   = getRandomInt(0, maxShift);
             const rndBitNum  = getRandomInt(0, 1022);
 
@@ -134,7 +134,7 @@ describe('HighloadWalletV3', () => {
 
 
     it('should fail check sign', async () => {
-        const message = highloadWalletV3.createInternalTransfer({actions: [], queryId: HighloadQueryId.fromQueryId(0n), value: 0n})
+        const message = highloadWalletV3.createInternalTransfer({actions: [], queryId: HighloadQueryId.fromQueryId(0n), value: 0n});
 
         let badKey: Buffer;
         // Just in case we win a lotto
@@ -157,13 +157,13 @@ describe('HighloadWalletV3', () => {
                 subwalletId: SUBWALLET_ID,
                 timeout: DEFAULT_TIMEOUT
             }
-        ), Errors.invalid_signature)
+        ), Errors.invalid_signature);
     });
 
     it('should fail subwallet check', async () => {
         let badSubwallet;
 
-        const message = highloadWalletV3.createInternalTransfer({actions: [], queryId: HighloadQueryId.fromQueryId(0n), value: 0n})
+        const message = highloadWalletV3.createInternalTransfer({actions: [], queryId: HighloadQueryId.fromQueryId(0n), value: 0n});
         const curSubwallet= await highloadWalletV3.getSubwalletId();
         expect(curSubwallet).toEqual(SUBWALLET_ID);
 
